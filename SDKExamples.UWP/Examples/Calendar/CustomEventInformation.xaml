@@ -15,15 +15,55 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.Resources>
+            <localCalendar:CustomCalendarCellStyleSelector x:Key="selector" CellTemplate="{StaticResource cellTemplate}" />
             <localCalendar:CellModelToEventConverter x:Key="eventConverter" />
-            <DataTemplate x:Key="template">
+
+            <DataTemplate x:Key="cellTemplate">
                 <Grid>
-                    <TextBlock Text="⏰" Foreground="#FF3399FF" FontSize="15" HorizontalAlignment="Right" FontFamily="Segoe UI Symbol" Margin="0,1,2,0" />
-                    <TextBlock Text="{Binding Converter={StaticResource eventConverter}}" Foreground="#FF767676" FontSize="13.333" VerticalAlignment="Bottom" Margin="6,0,0,4" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="⏰" Foreground="#FF3399FF" FontSize="15" HorizontalAlignment="Right" FontFamily="Segoe UI Symbol" Margin="0,1,2,0" />
+                    <StackPanel Grid.Row="1"  VerticalAlignment="Top"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.VerticalScrollMode="Enabled"
+                          ScrollViewer.IsVerticalRailEnabled="True">
+                        <TextBlock Grid.Row="1" Text="{Binding Converter={StaticResource eventConverter}}" Foreground="#FF767676" FontSize="13.333" VerticalAlignment="Bottom" Margin="6,0,0,4" />
+                        <ListView x:Name="MyView"
+                                  ItemTemplate ="{StaticResource MessageViewTemplate}"
+                                >
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel ItemsUpdatingScrollMode="KeepLastItemInView" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListViewItem Content="A"/>
+                            <ListViewItem Content="B"/>
+                            <ListViewItem Content="C"/>
+                        </ListView>
+
+                    </StackPanel>
                 </Grid>
             </DataTemplate>
-            <localCalendar:CustomCalendarCellStyleSelector x:Key="selector" EventTemplate="{StaticResource template}" />
+            <DataTemplate x:Key="MessageViewTemplate" x:DataType="x:String">
+                <Grid Height="Auto" Margin="4">
+                    <StackPanel MinHeight="5" Width="25" 
+                                                Padding="0,0,0,0"
+                                                Background="CadetBlue"
+                                                CornerRadius="5">
+                        <TextBlock Text="{Binding ElementName=ListViewItem}"/>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+
         </Grid.Resources>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

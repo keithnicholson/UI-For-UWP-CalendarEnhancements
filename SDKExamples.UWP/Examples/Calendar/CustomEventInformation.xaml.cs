@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Telerik.UI.Xaml.Controls.Input;
 using Telerik.UI.Xaml.Controls.Input.Calendar;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
@@ -23,7 +25,7 @@ namespace SDKExamples.UWP.Calendar
 
     public class CustomCalendarCellStyleSelector : CalendarCellStyleSelector
     {
-        public DataTemplate EventTemplate { get; set; }
+        public DataTemplate CellTemplate { get; set; }
 
         protected override void SelectStyleCore(CalendarCellStyleContext context, Telerik.UI.Xaml.Controls.Input.RadCalendar container)
         {
@@ -31,7 +33,7 @@ namespace SDKExamples.UWP.Calendar
 
             if (events.Any(e => e.Date == context.Date))
             {
-                context.CellTemplate = this.EventTemplate;
+                context.CellTemplate = this.CellTemplate;
             }
         }
     }
